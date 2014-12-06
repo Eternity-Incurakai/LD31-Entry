@@ -50,6 +50,15 @@ function self.getCG() -- WARNING: attempting to understand this function has bee
     return cf*(cm*(2*x-2*x*x)+(1-cm)*x)+(1-cf)*x
   end
 end
+function self.areHitting(a,b)
+  if not self.people[a].active then return false end
+  if not self.people[b].active then return false end
+  if self.people[a].x>self.people[b].x+self.people[b].width then return false end
+  if self.people[a].x+self.people[a].width<self.people[b].x then return false end
+  if self.people[a].y>self.people[b].y+self.people[b].height then return false end
+  if self.people[a].y+self.people[a].height<self.people[b].y then return false end
+  return true
+end
 function self.algore.isHitting(i)
   if not self.people[i].active then return false end
   if self.people[i].x>self.algore.x+self.algore.width then return false end
@@ -138,9 +147,13 @@ function self.go()
     end
     if self.time<self.nextspawntime then return end
     self.people[#self.people+1]={["cg"]=self.getCG(),["active"]=false,["x"]=math.random(780),["y"]=math.random(530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
-    while self.algore.isHitting(#self.people) do
+    local okay=false
+    while not okay do
       self.people[#self.people].x=math.random(780)
       self.people[#self.people].y=math.random(530)
+      okay=true
+      if self.algore.isHitting(#self.people) then okay=false end
+      for i=1,#self.people-1 do if self.areHitting(i,#self.people) then okay=false end end
     end
     self.nextspawntime=2/((self.slider1.rpos*5)+1)+self.time
   end
