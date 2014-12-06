@@ -23,7 +23,8 @@ local self={
     ["width"]=30,
     ["length"]=200,
     ["isDown"]=false,
-    ["offset"]=0
+    ["offset"]=0,
+    ["rpos"]=0
   },
   ["slider2"]={
     ["x"]=300,
@@ -33,7 +34,8 @@ local self={
     ["width"]=30,
     ["length"]=200,
     ["isDown"]=false,
-    ["offset"]=0
+    ["offset"]=0,
+    ["rpos"]=0
   }
 }
 self.__index=self
@@ -65,11 +67,13 @@ function self.go()
       self.slider1.pos=love.mouse.getX()-self.slider1.offset
       if self.slider1.pos<self.slider1.x then self.slider1.pos=self.slider1.x end
       if self.slider1.pos>self.slider1.x+self.slider1.length-self.slider1.width then self.slider1.pos=self.slider1.x+self.slider1.length-self.slider1.width end
+      self.slider1.rpos=((self.slider1.pos-self.slider1.x)/(self.slider1.length-self.slider1.width))
     end
     if self.slider2.isDown then
       self.slider2.pos=love.mouse.getX()-self.slider2.offset
       if self.slider2.pos<self.slider2.x then self.slider2.pos=self.slider2.x end
       if self.slider2.pos>self.slider2.x+self.slider2.length-self.slider2.width then self.slider2.pos=self.slider2.x+self.slider2.length-self.slider2.width end
+      self.slider2.rpos=((self.slider2.pos-self.slider2.x)/(self.slider2.length-self.slider2.width))
     end
     local oldx=self.algore.x
     local oldy=self.algore.y
