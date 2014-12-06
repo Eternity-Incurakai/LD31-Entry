@@ -13,9 +13,7 @@ function self.convince(i)
   self.people[i].cg=self.people[i].cg+0.01
 end
 function self.choose(i)
-  local rand=math.random()
-  print(rand,self.people[i].cg)
-  return nil
+  return math.random()<self.people[i].cg
 end
 function self.go()
   function love.load(t)
@@ -27,8 +25,7 @@ function self.go()
     for i=1,#self.people do
       if self.people[i].active then
         if self.people[i].choosetime<self.time then
-          print(self.time,self.people[i].choosetime)
-          --print(self.choose(i))
+          print(self.choose(i))
           self.people[i].active=false
         end
       end
