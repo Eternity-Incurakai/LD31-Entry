@@ -24,6 +24,16 @@ local self={
     ["length"]=200,
     ["isDown"]=false,
     ["offset"]=0
+  },
+  ["slider2"]={
+    ["x"]=300,
+    ["pos"]=300,
+    ["y"]=50,
+    ["height"]=20,
+    ["width"]=30,
+    ["length"]=200,
+    ["isDown"]=false,
+    ["offset"]=0
   }
 }
 self.__index=self
@@ -55,6 +65,11 @@ function self.go()
       self.slider1.pos=love.mouse.getX()-self.slider1.offset
       if self.slider1.pos<self.slider1.x then self.slider1.pos=self.slider1.x end
       if self.slider1.pos>self.slider1.x+self.slider1.length-self.slider1.width then self.slider1.pos=self.slider1.x+self.slider1.length-self.slider1.width end
+    end
+    if self.slider2.isDown then
+      self.slider2.pos=love.mouse.getX()-self.slider2.offset
+      if self.slider2.pos<self.slider2.x then self.slider2.pos=self.slider2.x end
+      if self.slider2.pos>self.slider2.x+self.slider2.length-self.slider2.width then self.slider2.pos=self.slider2.x+self.slider2.length-self.slider2.width end
     end
     local oldx=self.algore.x
     local oldy=self.algore.y
@@ -154,15 +169,38 @@ function self.go()
     love.graphics.rectangle("line",self.slider1.x,self.slider1.y,self.slider1.length,self.slider1.height)
     love.graphics.print(" No\nAds",self.slider1.x+3,self.slider1.y+self.slider1.height)
     love.graphics.print(" All\nOut",self.slider1.x+self.slider1.length-22,self.slider1.y+self.slider1.height)
+    if self.slider2.isDown then
+      love.graphics.setColor(100,100,100)
+    else
+      love.graphics.setColor(200,200,200)
+    end
+    love.graphics.arc("fill",self.slider2.pos+10,self.slider2.y+10,10,-math.pi,-math.pi/2)
+    love.graphics.arc("fill",self.slider2.pos+self.slider2.width-10,self.slider2.y+10,10,-math.pi/2,0)
+    love.graphics.arc("fill",self.slider2.pos+self.slider2.width-10,self.slider2.y+self.slider2.height-10,10,0,math.pi/2)
+    love.graphics.arc("fill",self.slider2.pos+10,self.slider2.y+self.slider2.height-10,10,math.pi/2,math.pi)
+    love.graphics.rectangle("fill",self.slider2.pos,self.slider2.y+10,self.slider2.width,self.slider2.height-20)
+    love.graphics.rectangle("fill",self.slider2.pos+10,self.slider2.y,self.slider2.width-20,self.slider2.height)
+    love.graphics.setColor(0,0,0)
+    love.graphics.line(self.slider2.pos+10,self.slider2.y+8,self.slider2.pos+10,self.slider2.y+12)
+    love.graphics.line(self.slider2.pos+15,self.slider2.y+5,self.slider2.pos+15,self.slider2.y+15)
+    love.graphics.line(self.slider2.pos+20,self.slider2.y+8,self.slider2.pos+20,self.slider2.y+12)
+    love.graphics.rectangle("line",self.slider2.x,self.slider2.y,self.slider2.length,self.slider2.height)
+    love.graphics.print("Nice",self.slider2.x+2,self.slider2.y+self.slider2.height)
+    love.graphics.print("Mean",self.slider2.x+self.slider2.length-30,self.slider2.y+self.slider2.height)
   end
   function love.mousepressed(x, y, button)
     if x>self.slider1.pos  and x<self.slider1.pos+self.slider1.width and y>self.slider1.y and y<self.slider1.y+self.slider1.height then
       self.slider1.isDown=true
       self.slider1.offset=x-self.slider1.pos
     end
+    if x>self.slider2.pos  and x<self.slider2.pos+self.slider2.width and y>self.slider2.y and y<self.slider2.y+self.slider2.height then
+      self.slider2.isDown=true
+      self.slider2.offset=x-self.slider2.pos
+    end
   end
   function love.mousereleased(x, y, button)
     self.slider1.isDown=false
+    self.slider2.isDown=false
   end
   function love.focus(f)
 
