@@ -3,14 +3,18 @@ local self={
 
   },
   ["algore"]={
-    ["x"]=0,
-    ["y"]=0,
+    ["x"]=10,
+    ["y"]=10,
     ["width"]=20,
     ["height"]=70,
     ["speed"]=250
   },
   ["time"]=0,
-  ["nextspawntime"]=0
+  ["nextspawntime"]=0,
+  ["votes"]={
+    ["gore"]=0,
+    ["bush"]=0
+  }
 }
 self.__index=self
 function self.algore.isHitting(i)
@@ -35,8 +39,7 @@ function self.go()
 
   end
   function love.update(dt)
-    --self.convince(#self.people)
-    if self.algore.hitting then self.convince(self.algore.hitting,0.2*dt) end
+    if self.algore.hitting then self.convince(self.algore.hitting,0.125*dt) end
     self.time=self.time+dt
     local oldx=self.algore.x
     local oldy=self.algore.y
@@ -78,14 +81,18 @@ function self.go()
           self.algore.y=oldy
           self.algore.hitting=i
         end
-        if self.people[i].choosetime<self.time and self.algore.hitting~=i then
-          print(self.choose(i))
+        if self.people[i].choosetime<self.time then
+          if self.choose(i) then
+            self.votes.gore=self.votes.gore+1
+          else
+            self.votes.bush=self.votes.bush+1
+          end
           self.people[i].active=false
         end
       end
     end
     if self.time<self.nextspawntime then return end
-    self.people[#self.people+1]={["cg"]=math.random(),["active"]=false,["x"]=math.random(780),["y"]=math.random(530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
+    self.people[#self.people+1]={["cg"]=math.random(65)/100,["active"]=false,["x"]=math.random(780),["y"]=math.random(530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
     while self.algore.isHitting(#self.people) do
       self.people[#self.people].x=math.random(780)
       self.people[#self.people].y=math.random(530)
@@ -93,6 +100,9 @@ function self.go()
     self.nextspawntime=3+self.time
   end
   function love.draw()
+    love.graphics.font=font(12)
+    love.graphics.setColor(0,0,0)
+    love.graphics.print(self.votes.gore.." GORE, "..self.votes.bush.." BUSH",0,0)
     for i=1,#self.people do
       if self.people[i].active then
         love.graphics.setColor(255*(1-self.people[i].cg),0,255*self.people[i].cg)
