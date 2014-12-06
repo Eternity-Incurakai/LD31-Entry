@@ -39,6 +39,17 @@ local self={
   }
 }
 self.__index=self
+function self.getCG() -- WARNING: attempting to understand this function has been known to result in severe headaches.  You have been warned :P
+  local x=math.random()
+  local cm=self.slider2.rpos -- Coefficient of meanness
+  local cf=self.slider1.rpos -- Coefficient of funds
+  if x == 0.5 then return 0.5 end -- wow, lucky guess!
+  if x>0.5 then
+    return cf*(cm*(2*x*x-2*x+1)+(1-cm)*((1+math.sqrt(2*x-1))/2))+(1-cf)*x
+  else
+    return cf*(cm*(2*x-2*x*x)+(1-cm)*x)+(1-cf)*x
+  end
+end
 function self.algore.isHitting(i)
   if not self.people[i].active then return false end
   if self.people[i].x>self.algore.x+self.algore.width then return false end
@@ -126,7 +137,7 @@ function self.go()
       end
     end
     if self.time<self.nextspawntime then return end
-    self.people[#self.people+1]={["cg"]=math.random(65)/100,["active"]=false,["x"]=math.random(780),["y"]=math.random(530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
+    self.people[#self.people+1]={["cg"]=self.getCG(),["active"]=false,["x"]=math.random(780),["y"]=math.random(530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
     while self.algore.isHitting(#self.people) do
       self.people[#self.people].x=math.random(780)
       self.people[#self.people].y=math.random(530)
