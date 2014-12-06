@@ -1,8 +1,9 @@
-assets=nil -- OCD :P
+assets=require "assets"
 splashes=require "splashes"
 gamesplash=require "gamesplash"
 game=require "game"
 credits=require "credits"
+require "config"
 _font = {
 
 }
@@ -32,8 +33,6 @@ function string:split(sep)
   return fields
 end
 function love.load(t)
-  assets=require "assets"
-  require "config"
   settings=ldconfig()
   for i,v in ipairs(t) do
     if i ~= 1 then
