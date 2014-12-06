@@ -3,6 +3,7 @@ splashes=require "splashes"
 gamesplash=require "gamesplash"
 game=require "game"
 credits=require "credits"
+instructions=require "instructions"
 require "config"
 _font = {
 
