@@ -100,7 +100,7 @@ function self.go()
     self.nextspawntime=3+self.time
   end
   function love.draw()
-    love.graphics.font=font(12)
+    love.graphics.setFont(font(12))
     love.graphics.setColor(0,0,0)
     love.graphics.print(self.votes.gore.." GORE, "..self.votes.bush.." BUSH",0,0)
     for i=1,#self.people do
