@@ -13,32 +13,47 @@ function self.convince(i)
   self.people[i].cg=self.people[i].cg+0.01
 end
 function self.choose(i)
-  -- TODO
+  local rand=math.random()
+  print(rand,self.people[i].cg)
+  return nil
 end
 function self.go()
   function love.load(t)
 
   end
   function love.update(dt)
-    self.convince(#self.people)
+    --self.convince(#self.people)
     self.time=self.time+dt
+    for i=1,#self.people do
+      if self.people[i].active then
+        if self.people[i].choosetime<self.time then
+          print(self.time,self.people[i].choosetime)
+          --print(self.choose(i))
+          self.people[i].active=false
+        end
+      end
+    end
     if self.time<self.nextspawntime then return end
     local psn={}
     psn.cg=math.random()
     psn.x=math.random(800)
     psn.y=math.random(600)
-    table.insert(self.people,psn)
-    self.nextspawntime=5+self.nextspawntime
+    psn.active=true
+    psn.choosetime=self.time+5
+    self.people[#self.people+1]=psn
+    self.nextspawntime=1+self.time
   end
   function love.draw()
     for i=1,#self.people do
-      love.graphics.setColor(255*(1-self.people[i].cg),0,255*self.people[i].cg)
-      love.graphics.circle("line",self.people[i].x,self.people[i].y,10)
-      love.graphics.line(self.people[i].x,self.people[i].y+10,self.people[i].x,self.people[i].y+40)
-      love.graphics.line(self.people[i].x,self.people[i].y+40,self.people[i].x-10,self.people[i].y+60)
-      love.graphics.line(self.people[i].x,self.people[i].y+40,self.people[i].x+10,self.people[i].y+60)
-      love.graphics.line(self.people[i].x,self.people[i].y+25,self.people[i].x+10,self.people[i].y+15)
-      love.graphics.line(self.people[i].x,self.people[i].y+25,self.people[i].x-10,self.people[i].y+15)
+      if self.people[i].active then
+        love.graphics.setColor(255*(1-self.people[i].cg),0,255*self.people[i].cg)
+        love.graphics.circle("line",self.people[i].x,self.people[i].y,10)
+        love.graphics.line(self.people[i].x,self.people[i].y+10,self.people[i].x,self.people[i].y+40)
+        love.graphics.line(self.people[i].x,self.people[i].y+40,self.people[i].x-10,self.people[i].y+60)
+        love.graphics.line(self.people[i].x,self.people[i].y+40,self.people[i].x+10,self.people[i].y+60)
+        love.graphics.line(self.people[i].x,self.people[i].y+25,self.people[i].x+10,self.people[i].y+15)
+        love.graphics.line(self.people[i].x,self.people[i].y+25,self.people[i].x-10,self.people[i].y+15)
+      end
     end
   end
   function love.mousepressed(x, y, button)
