@@ -142,7 +142,7 @@ function self.go()
       self.people[#self.people].x=math.random(780)
       self.people[#self.people].y=math.random(530)
     end
-    self.nextspawntime=3+self.time
+    self.nextspawntime=2/(cf+0.1)+self.time
   end
   function love.draw()
     love.graphics.setFont(font(12))
