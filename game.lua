@@ -14,6 +14,16 @@ local self={
   ["votes"]={
     ["gore"]=0,
     ["bush"]=0
+  },
+  ["slider1"]={
+    ["x"]=50,
+    ["pos"]=50,
+    ["y"]=50,
+    ["height"]=20,
+    ["width"]=30,
+    ["length"]=200,
+    ["isDown"]=false,
+    ["offset"]=0
   }
 }
 self.__index=self
@@ -39,8 +49,13 @@ function self.go()
 
   end
   function love.update(dt)
-    if self.algore.hitting then self.convince(self.algore.hitting,0.125*dt) end
     self.time=self.time+dt
+    if self.algore.hitting then self.convince(self.algore.hitting,0.125*dt) end
+    if self.slider1.isDown then
+      self.slider1.pos=love.mouse.getX()-self.slider1.offset
+      if self.slider1.pos<self.slider1.x then self.slider1.pos=self.slider1.x end
+      if self.slider1.pos>self.slider1.x+self.slider1.length-self.slider1.width then self.slider1.pos=self.slider1.x+self.slider1.length-self.slider1.width end
+    end
     local oldx=self.algore.x
     local oldy=self.algore.y
     if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
@@ -121,11 +136,33 @@ function self.go()
     love.graphics.line(self.algore.x,self.algore.y+40,self.algore.x+10,self.algore.y+60)
     love.graphics.line(self.algore.x,self.algore.y+25,self.algore.x+10,self.algore.y+15)
     love.graphics.line(self.algore.x,self.algore.y+25,self.algore.x-10,self.algore.y+15)
+    if self.slider1.isDown then
+      love.graphics.setColor(100,100,100)
+    else
+      love.graphics.setColor(200,200,200)
+    end
+    love.graphics.arc("fill",self.slider1.pos+10,self.slider1.y+10,10,-math.pi,-math.pi/2)
+    love.graphics.arc("fill",self.slider1.pos+self.slider1.width-10,self.slider1.y+10,10,-math.pi/2,0)
+    love.graphics.arc("fill",self.slider1.pos+self.slider1.width-10,self.slider1.y+self.slider1.height-10,10,0,math.pi/2)
+    love.graphics.arc("fill",self.slider1.pos+10,self.slider1.y+self.slider1.height-10,10,math.pi/2,math.pi)
+    love.graphics.rectangle("fill",self.slider1.pos,self.slider1.y+10,self.slider1.width,self.slider1.height-20)
+    love.graphics.rectangle("fill",self.slider1.pos+10,self.slider1.y,self.slider1.width-20,self.slider1.height)
+    love.graphics.setColor(0,0,0)
+    love.graphics.line(self.slider1.pos+10,self.slider1.y+8,self.slider1.pos+10,self.slider1.y+12)
+    love.graphics.line(self.slider1.pos+15,self.slider1.y+5,self.slider1.pos+15,self.slider1.y+15)
+    love.graphics.line(self.slider1.pos+20,self.slider1.y+8,self.slider1.pos+20,self.slider1.y+12)
+    love.graphics.rectangle("line",self.slider1.x,self.slider1.y,self.slider1.length,self.slider1.height)
+    love.graphics.print(" No\nAds",self.slider1.x+3,self.slider1.y+self.slider1.height)
+    love.graphics.print(" All\nOut",self.slider1.x+self.slider1.length-22,self.slider1.y+self.slider1.height)
   end
   function love.mousepressed(x, y, button)
+    if x>self.slider1.pos  and x<self.slider1.pos+self.slider1.width and y>self.slider1.y and y<self.slider1.y+self.slider1.height then
+      self.slider1.isDown=true
+      self.slider1.offset=x-self.slider1.pos
+    end
   end
   function love.mousereleased(x, y, button)
-
+    self.slider1.isDown=false
   end
   function love.focus(f)
 
