@@ -7,25 +7,25 @@ local self={
     ["y"]=0,
     ["width"]=20,
     ["height"]=70,
-    ["speed"]=100
+    ["speed"]=250
   },
   ["time"]=0,
   ["nextspawntime"]=0
 }
 self.__index=self
 function self.algore.isHitting(i)
-  if not self.people[i].active then return nil end
-  if self.people[i].x>self.algore.x+self.algore.width then return nil end
-  if self.people[i].x+self.people[i].width<self.algore.x then return nil end
-  if self.people[i].y>self.algore.y+self.algore.height then return nil end
-  if self.people[i].y+self.people[i].height<self.algore.y then return nil end
+  if not self.people[i].active then return false end
+  if self.people[i].x>self.algore.x+self.algore.width then return false end
+  if self.people[i].x+self.people[i].width<self.algore.x then return false end
+  if self.people[i].y>self.algore.y+self.algore.height then return false end
+  if self.people[i].y+self.people[i].height<self.algore.y then return false end
   return true
 end
-function self.convince(i)
+function self.convince(i,v) -- i = person, v = how much
   if not self.people[i] then return end
   if self.people[i].cg==1 then return end
-  if self.people[i].cg>0.99 then self.people[i].cg=1 return end
-  self.people[i].cg=self.people[i].cg+0.01
+  if self.people[i].cg>1-v then self.people[i].cg=1 return end
+  self.people[i].cg=self.people[i].cg+v
 end
 function self.choose(i)
   return math.random()<self.people[i].cg
@@ -36,23 +36,39 @@ function self.go()
   end
   function love.update(dt)
     --self.convince(#self.people)
-    print(self.algore.hitting)
+    if self.algore.hitting then self.convince(self.algore.hitting,0.2*dt) end
     self.time=self.time+dt
     local oldx=self.algore.x
     local oldy=self.algore.y
     if love.keyboard.isDown("s") or love.keyboard.isDown("down") then
       self.algore.hitting=nil
-      self.algore.y=self.algore.y+self.algore.speed*dt
+      if self.algore.y-10+self.algore.height+self.algore.speed*dt>600 then
+        self.algore.y=540
+      else
+        self.algore.y=self.algore.y+self.algore.speed*dt
+      end
     elseif love.keyboard.isDown("w") or love.keyboard.isDown("up") then
       self.algore.hitting=nil
-      self.algore.y=self.algore.y-self.algore.speed*dt
+      if self.algore.y-10-self.algore.speed*dt<0 then
+        self.algore.y=10
+      else
+        self.algore.y=self.algore.y-self.algore.speed*dt
+      end
     end
     if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
       self.algore.hitting=nil
-      self.algore.x=self.algore.x-self.algore.speed*dt
+      if self.algore.x-(self.algore.width/2)-self.algore.speed*dt<0 then
+        self.algore.x=10
+      else
+        self.algore.x=self.algore.x-self.algore.speed*dt
+      end
     elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
       self.algore.hitting=nil
-      self.algore.x=self.algore.x+self.algore.speed*dt
+      if self.algore.x+(self.algore.width/2)+self.algore.speed*dt>800 then
+        self.algore.x=790
+      else
+        self.algore.x=self.algore.x+self.algore.speed*dt
+      end
     end
     for i=1,#self.people do
       if self.people[i].active then
@@ -62,19 +78,19 @@ function self.go()
           self.algore.y=oldy
           self.algore.hitting=i
         end
-        if self.people[i].choosetime<self.time then
+        if self.people[i].choosetime<self.time and self.algore.hitting~=i then
           print(self.choose(i))
           self.people[i].active=false
         end
       end
     end
     if self.time<self.nextspawntime then return end
-    self.people[#self.people+1]={["cg"]=math.random(),["active"]=false,["x"]=math.random(800),["y"]=math.random(600),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+1000000}
+    self.people[#self.people+1]={["cg"]=math.random(),["active"]=false,["x"]=math.random(780),["y"]=math.random(530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
     while self.algore.isHitting(#self.people) do
-      self.people[#self.people].x=math.random(800)
-      self.people[#self.people].y=math.random(600)
+      self.people[#self.people].x=math.random(780)
+      self.people[#self.people].y=math.random(530)
     end
-    self.nextspawntime=1000000+self.time
+    self.nextspawntime=3+self.time
   end
   function love.draw()
     for i=1,#self.people do
