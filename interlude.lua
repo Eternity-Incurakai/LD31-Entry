@@ -120,6 +120,7 @@ function self.reset()
     ["gore"]=204
   }
   self.lswmessage=""
+end
 function self.go(result)
   if result then
     local state=table.remove(self.states)
