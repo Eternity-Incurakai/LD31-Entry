@@ -37,11 +37,13 @@ local self={
     ["offset"]=0,
     ["rpos"]=0
   },
-  ["state"]="California"
+  ["state"]="",
+  ["upper"]=0,
+  ["lower"]=0
 }
 self.__index=self
 function self.getCG() -- WARNING: attempting to understand this function has been known to result in severe headaches.  You have been warned :P
-  local x=math.random()*.9
+  local x=math.random()*(self.upper-self.lower)+self.lower
   local cm=self.slider2.rpos -- Coefficient of meanness
   local cf=self.slider1.rpos -- Coefficient of funds
   if x == 0.5 then return 0.5 end -- wow, lucky guess!
@@ -77,12 +79,52 @@ end
 function self.choose(i)
   return math.random()<self.people[i].cg
 end
-function self.go()
+function self.go(state,lower,upper)
+  self.state=state
+  self.lower=lower
+  self.upper=upper
+  self.people={}
+  self.algore={
+    ["x"]=400,
+    ["y"]=400,
+    ["width"]=20,
+    ["height"]=70,
+    ["speed"]=250
+  }
+  self.time=0
+  self.nextspawntime=0
+  self.votes={
+    ["gore"]=0,
+    ["bush"]=0
+  }
+  self.slider1={
+    ["x"]=50,
+    ["pos"]=50,
+    ["y"]=80,
+    ["height"]=20,
+    ["width"]=30,
+    ["length"]=200,
+    ["isDown"]=false,
+    ["offset"]=0,
+    ["rpos"]=0
+  }
+  self.slider2={
+    ["x"]=550,
+    ["pos"]=550,
+    ["y"]=80,
+    ["height"]=20,
+    ["width"]=30,
+    ["length"]=200,
+    ["isDown"]=false,
+    ["offset"]=0,
+    ["rpos"]=0
+  }
   function love.load(t)
 
   end
   function love.update(dt)
     self.time=self.time+dt
+    if self.time>60 then interlude.go(self.votes.gore,self.vote) end
     if self.algore.hitting then self.convince(self.algore.hitting,0.125*dt) end
     if self.slider1.isDown then
       self.slider1.pos=love.mouse.getX()-self.slider1.offset
@@ -160,7 +202,7 @@ function self.go()
   end
   function love.draw()
     love.graphics.setFont(font(72))
-    love.graphics.print(self.state,(400-font(72):getWidth(self.state)/2),0)
+    love.graphics.print(self.state.." - 00:"..(60-math.floor(self.time)),(400-font(72):getWidth(self.state.." - 00:"..(60-math.floor(self.time)))/2),0)
     love.graphics.setFont(font(12))
     love.graphics.setColor(0,0,0)
     --love.graphics.print(self.votes.gore.." GORE, "..self.votes.bush.." BUSH",0,0)
