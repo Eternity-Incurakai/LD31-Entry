@@ -176,5 +176,6 @@ function self.go(result)
   function love.quit()
 
   end
+  -- if #self.states>0 then game.go(self.states[#self.states].name) end --Autoplay - for cheater testing
 end
 return self

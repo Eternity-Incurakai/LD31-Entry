@@ -43,7 +43,7 @@ local self={
 self.__index=self
 function self.zeropad(num) if #(num.."")==2 then return ""..num else return "0"..num end end
 function self.getCG() -- WARNING: attempting to understand this function has been known to result in severe headaches.  You have been warned :P
-  local x=math.random()*0.85
+  local x=math.random()*0.7
   local cm=self.slider2.rpos -- Coefficient of meanness
   local cf=self.slider1.rpos -- Coefficient of funds
   if x == 0.5 then return 0.5 end -- wow, lucky guess!
@@ -121,7 +121,7 @@ function self.go(state)
   function love.update(dt)
     self.time=self.time+dt
     if self.time>self.length then interlude.go(self.votes) end
-    if self.algore.hitting then self.convince(self.algore.hitting,0.125*dt) end
+    if self.algore.hitting then self.convince(self.algore.hitting,0.2*dt) end
     if self.slider1.isDown then
       self.slider1.pos=love.mouse.getX()-self.slider1.offset
       if self.slider1.pos<self.slider1.x then self.slider1.pos=self.slider1.x end
