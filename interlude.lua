@@ -118,7 +118,7 @@ function self.reset()
   self.electors={
     ["bush"]=195,
     ["gore"]=204
-  },
+  }
   self.lswmessage=""
 function self.go(result)
   if result then
