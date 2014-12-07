@@ -18,7 +18,7 @@ local self={
   ["slider1"]={
     ["x"]=50,
     ["pos"]=50,
-    ["y"]=50,
+    ["y"]=80,
     ["height"]=20,
     ["width"]=30,
     ["length"]=200,
@@ -27,16 +27,17 @@ local self={
     ["rpos"]=0
   },
   ["slider2"]={
-    ["x"]=300,
-    ["pos"]=300,
-    ["y"]=50,
+    ["x"]=550,
+    ["pos"]=550,
+    ["y"]=80,
     ["height"]=20,
     ["width"]=30,
     ["length"]=200,
     ["isDown"]=false,
     ["offset"]=0,
     ["rpos"]=0
-  }
+  },
+  ["state"]="California"
 }
 self.__index=self
 function self.getCG() -- WARNING: attempting to understand this function has been known to result in severe headaches.  You have been warned :P
@@ -106,8 +107,8 @@ function self.go()
       end
     elseif love.keyboard.isDown("w") or love.keyboard.isDown("up") then
       self.algore.hitting=nil
-      if self.algore.y-10-self.algore.speed*dt<0 then
-        self.algore.y=10
+      if self.algore.y-10-self.algore.speed*dt<130 then
+        self.algore.y=140
       else
         self.algore.y=self.algore.y-self.algore.speed*dt
       end
@@ -146,11 +147,11 @@ function self.go()
       end
     end
     if self.time<self.nextspawntime then return end
-    self.people[#self.people+1]={["cg"]=self.getCG(),["active"]=false,["x"]=math.random(780),["y"]=math.random(530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
+    self.people[#self.people+1]={["cg"]=self.getCG(),["active"]=false,["x"]=math.random(780),["y"]=math.random(140,530),["height"]=70,["width"]=20,["active"]=true,["choosetime"]=self.time+5}
     local okay=false
     while not okay do
       self.people[#self.people].x=math.random(780)
-      self.people[#self.people].y=math.random(530)
+      self.people[#self.people].y=math.random(140,530)
       okay=true
       if self.algore.isHitting(#self.people) then okay=false end
       for i=1,#self.people-1 do if self.areHitting(i,#self.people) then okay=false end end
@@ -158,9 +159,11 @@ function self.go()
     self.nextspawntime=2/((self.slider1.rpos*5)+1)+self.time
   end
   function love.draw()
+    love.graphics.setFont(font(72))
+    love.graphics.print(self.state,(400-font(72):getWidth(self.state)/2),0)
     love.graphics.setFont(font(12))
     love.graphics.setColor(0,0,0)
-    love.graphics.print(self.votes.gore.." GORE, "..self.votes.bush.." BUSH",0,0)
+    --love.graphics.print(self.votes.gore.." GORE, "..self.votes.bush.." BUSH",0,0)
     for i=1,#self.people do
       if self.people[i].active then
         love.graphics.setColor(255*(1-self.people[i].cg),0,255*self.people[i].cg)
