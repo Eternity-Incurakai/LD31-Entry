@@ -114,12 +114,12 @@ function self.reset()
       ["name"]="Pennsylvania",
       ["votes"]=23
     }
-    self.electors={
+  }
+  self.electors={
     ["bush"]=195,
     ["gore"]=204
-    },
-    self.lswmessage=""
-  }
+  },
+  self.lswmessage=""
 function self.go(result)
   if result then
     local state=table.remove(self.states)
