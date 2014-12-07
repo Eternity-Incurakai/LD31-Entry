@@ -7,7 +7,7 @@ local self={
       ["height"]=75
     }
   },
-  ["wintext"]="Congratulations!  You have recieved the needed 270 electoral votes!  You have changed history!"
+  ["wintext"]="Congratulations!  You have recieved the needed 270 electoral votes!  You have changed history!",
   ["losetext"]="George Bush has defeated you... but you can always try again!"
 }
 self.__index=self
