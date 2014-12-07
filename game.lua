@@ -40,7 +40,7 @@ local self={
 }
 self.__index=self
 function self.getCG() -- WARNING: attempting to understand this function has been known to result in severe headaches.  You have been warned :P
-  local x=math.random(70)/100
+  local x=math.random()*.9
   local cm=self.slider2.rpos -- Coefficient of meanness
   local cf=self.slider1.rpos -- Coefficient of funds
   if x == 0.5 then return 0.5 end -- wow, lucky guess!
