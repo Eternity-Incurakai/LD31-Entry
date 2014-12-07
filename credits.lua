@@ -7,7 +7,7 @@ local self={
       ["height"]=75
     }
   },
-  ["creditstext"]="Splash Music - Courtesy of Robert del Naja\nCode licensed by Eternity Incurakai under the MIT license - some assets may not be compatible with this license so please check before redistributing."
+  ["creditstext"]="Splash Music - Courtesy of Robert del Naja\nCode licensed by Eternity Incurakai under the MIT license - some assets may not be compatible with this license so please check before redistributing.\nElections information from Wikipedia article \"United States presidential election, 2000\".\nFor this game, we are completely ignoring that Maine and Nebraska give partial electoral votes - it was too complex to program :D"
 }
 self.__index=self
 function self.go()

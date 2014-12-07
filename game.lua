@@ -124,7 +124,7 @@ function self.go(state,lower,upper)
   end
   function love.update(dt)
     self.time=self.time+dt
-    if self.time>60 then interlude.go(self.votes.gore,self.vote) end
+    if self.time>60 then interlude.report(self.state,self.votes) interlude.go() end
     if self.algore.hitting then self.convince(self.algore.hitting,0.125*dt) end
     if self.slider1.isDown then
       self.slider1.pos=love.mouse.getX()-self.slider1.offset
