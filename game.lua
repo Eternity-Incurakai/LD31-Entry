@@ -1,5 +1,5 @@
 local self={
-  ["length"]=60,
+  ["length"]=20,
   ["people"]={
 
   },
