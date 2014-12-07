@@ -1,3 +1,4 @@
+math.randomseed(os.time())
 assets=require "assets"
 splashes=require "splashes"
 gamesplash=require "gamesplash"
