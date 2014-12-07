@@ -1,5 +1,5 @@
 local self={
-  ["length"]=10,
+  ["length"]=60,
   ["people"]={
 
   },
@@ -41,6 +41,7 @@ local self={
   ["state"]=""
 }
 self.__index=self
+function self.zeropad(num) if #(num.."")==2 then return ""..num else return "0"..num end end
 function self.getCG() -- WARNING: attempting to understand this function has been known to result in severe headaches.  You have been warned :P
   local x=math.random()*0.85
   local cm=self.slider2.rpos -- Coefficient of meanness
@@ -197,7 +198,7 @@ function self.go(state)
   end
   function love.draw()
     love.graphics.setFont(font(72))
-    love.graphics.print(self.state.." - 00:"..(self.length-math.floor(self.time)),(400-font(72):getWidth(self.state.." - 00:"..(self.length-math.floor(self.time)))/2),0)
+    love.graphics.print(self.state.." - 00:"..self.zeropad(self.length-math.floor(self.time)),(400-font(72):getWidth(self.state.." - 00:"..self.zeropad(self.length-math.floor(self.time)))/2),0)
     love.graphics.setFont(font(12))
     love.graphics.setColor(0,0,0)
     --love.graphics.print(self.votes.gore.." GORE, "..self.votes.bush.." BUSH",0,0)
