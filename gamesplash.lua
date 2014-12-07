@@ -44,7 +44,7 @@ function self.go()
       credits.go()
     elseif x>self.btns.play.x and x<self.btns.play.x+self.btns.play.width and y>self.btns.play.y and y<self.btns.play.y+self.btns.play.height then
       assets.splashmusic:stop()
-      game.go()
+      interlude.go()
     elseif x>self.btns.instructions.x and x<self.btns.instructions.x+self.btns.instructions.width and y>self.btns.instructions.y and y<self.btns.instructions.y+self.btns.instructions.height then
       instructions.go()
     end

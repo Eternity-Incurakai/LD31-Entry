@@ -6,6 +6,7 @@ game=require "game"
 interlude=require "interlude"
 credits=require "credits"
 instructions=require "instructions"
+finale=require "finale"
 require "config"
 _font = {
 
