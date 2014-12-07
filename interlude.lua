@@ -135,9 +135,11 @@ function self.go(result)
   if self.electors.bush>269 then
     self.reset()
     finale.go(false)
+    return
   elseif self.electors.gore>269 then
     self.reset()
     finale.go(true)
+    return
   end
   if self.electors.bush < self.electors.gore then
     self.lswmessage=self.lswmessage.."\nCurrent electoral votes: Gore leads "..self.electors.gore.." electors to "..self.electors.bush.." electors"
