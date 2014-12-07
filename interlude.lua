@@ -64,6 +64,62 @@ local self={
   }
 }
 self.__index=self
+function self.reset()
+  self.states={
+    {
+      ["name"]="Florida",
+      ["votes"]=25
+    },
+    {
+      ["name"]="New Mexico",
+      ["votes"]=5
+    },
+    {
+      ["name"]="Wisconson",
+      ["votes"]=11
+    },
+    {
+      ["name"]="Iowa",
+      ["votes"]=7
+    },
+    {
+      ["name"]="Oregon",
+      ["votes"]=7
+      },
+    {
+      ["name"]="New Hampshire",
+      ["votes"]=4
+    },
+    {
+      ["name"]="Minnesota",
+      ["votes"]=10
+    },
+    {
+      ["name"]="Missouri",
+      ["votes"]=11
+    },
+    {
+      ["name"]="Ohio",
+      ["votes"]=21
+    },
+    {
+      ["name"]="Nevada",
+      ["votes"]=4
+    },
+    {
+      ["name"]="Tennessee",
+      ["votes"]=11
+    },
+    {
+      ["name"]="Pennsylvania",
+      ["votes"]=23
+    }
+    self.electors={
+    ["bush"]=195,
+    ["gore"]=204
+    },
+    self.lswmessage=""
+  }
 function self.go(result)
   if result then
     local state=table.remove(self.states)
@@ -76,8 +132,10 @@ function self.go(result)
     end
   end
   if self.electors.bush>269 then
+    self.reset()
     finale.go(false)
   elseif self.electors.gore>269 then
+    self.reset()
     finale.go(true)
   end
   if self.electors.bush < self.electors.gore then
