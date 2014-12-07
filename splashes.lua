@@ -7,7 +7,7 @@ function self.go()
 
   end
   function love.update(dt)
-    if dt>1 then return end -- If it's less than 1 fps, we're probably not loaded properly yet 
+    if dt>1 then return end -- If it's less than 1 fps, we're probably not loaded properly yet
     self.time=self.time+dt
     if self.time > 12 then gamesplash.go() end
     if self.time > 8 and self.time-dt<8 then -- First time beyond 8.  Would love to use assets.eijingle:isPlaying() here but incompatible with 0.9+
@@ -24,6 +24,13 @@ function self.go()
     end
   end
   function love.mousepressed(x, y, button)
+    if self.time < 4 then
+      love.system.openURL("http://lua.org")
+    elseif self.time < 8 then
+      love.system.openURL("http://love2d.org")
+    else
+      love.system.openURL("http://eternityincurakai.com")
+    end
   end
   function love.mousereleased(x, y, button)
 
