@@ -4,6 +4,7 @@ local self={
     ["love"] = love.graphics.newImage("assets/love.png"),
     ["lua"] = love.graphics.newImage("assets/lua.png"),
     ["person"] = love.graphics.newImage("assets/person.png"),
-    ["splashmusic"] = love.audio.newSource("assets/splashmusic.mp3","stream")
+    ["splashmusic"] = love.audio.newSource("assets/splashmusic.mp3","stream"),
+    ["title"] = love.graphics.newImage("assets/title.png")
 }
 return self
