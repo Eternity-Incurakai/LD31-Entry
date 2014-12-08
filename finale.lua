@@ -8,15 +8,18 @@ local self={
     }
   },
   ["wintext"]="Congratulations!  You have recieved the needed 270 electoral votes!  You have changed history!",
-  ["losetext"]="George Bush has defeated you... but you can always try again!"
+  ["losetext"]="George Bush has defeated you... but you can always try again!",
+  ["tietext"]="This race must be decided in the House of Representatives!  You have managed to tie!"
 }
 self.__index=self
 function self.go(wewon)
   local text
   if wewon then
     text=self.wintext
-  else
+  elseif wewon == false then
     text=self.losetext
+  elseif wewon == nil then
+    text=self.tietext
   end
   function love.load(t)
   end

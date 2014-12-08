@@ -140,6 +140,10 @@ function self.go(result)
     self.reset()
     finale.go(true)
     return
+  elseif #self.states == 0 then -- Tie
+    self.reset()
+    finale.go(nil)
+    return
   end
   if self.electors.bush < self.electors.gore then
     self.lswmessage=self.lswmessage.."\nCurrent electoral votes: Gore leads "..self.electors.gore.." electors to "..self.electors.bush.." electors"
