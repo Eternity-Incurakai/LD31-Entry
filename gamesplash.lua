@@ -50,7 +50,7 @@ function self.go()
     if x>self.btns.credits.x and x<self.btns.credits.x+self.btns.credits.width and y>self.btns.credits.y and y<self.btns.credits.y+self.btns.credits.height then
       credits.go()
     elseif x>self.btns.play.x and x<self.btns.play.x+self.btns.play.width and y>self.btns.play.y and y<self.btns.play.y+self.btns.play.height then
-      assets.splashmusic:stop()
+      --assets.splashmusic:stop()
       interlude.go()
     elseif x>self.btns.instructions.x and x<self.btns.instructions.x+self.btns.instructions.width and y>self.btns.instructions.y and y<self.btns.instructions.y+self.btns.instructions.height then
       instructions.go()
